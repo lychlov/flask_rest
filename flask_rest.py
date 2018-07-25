@@ -17,9 +17,9 @@ def hello_world():
 
 @app.route('/channel/<channel_name>')
 def show_channel_image(channel_name):
-    file_name_png = IMG_STORE + "/channel/"+channel_name+".png"
-    file_name_jpg = IMG_STORE + "/channel/"+channel_name+".jpg"
-    file_unknown_png = IMG_STORE + "/channel/"+"TV.png"
+    file_name_png = IMG_STORE + "/channel/" + channel_name + ".png"
+    file_name_jpg = IMG_STORE + "/channel/" + channel_name + ".jpg"
+    file_unknown_png = IMG_STORE + "/channel/" + "TV.png"
 
     if os.path.exists(file_name_jpg):
         image = file(file_name_jpg)
@@ -31,12 +31,11 @@ def show_channel_image(channel_name):
     return Response(image, mimetype="image/jpeg")
 
 
-
 @app.route('/tv/<tvname>')
 def show_tv_image(tvname):
     # show the tv image for that TV
     target = 'https://www.douban.com/search?cat=1002&q=' + tvname
-    print (target)
+    print(target)
     html = requests.get(target).content.decode('utf-8')
     doc_tree = etree.HTML(html)
     image_links = doc_tree.xpath('//*[@id="content"]/div/div[1]/div[3]/div[2]/div[1]/div[1]/a/img/@src')
