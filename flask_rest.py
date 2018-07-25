@@ -33,18 +33,21 @@ def show_channel_image(channel_name):
 
 @app.route('/tv/<tvname>')
 def show_tv_image(tvname):
-    # show the tv image for that TV
+    # show the tv image for  TV
+    # 访问豆瓣根据剧名进行搜索
     target = 'https://www.douban.com/search?cat=1002&q=' + tvname
-    print(target)
     html = requests.get(target).content.decode('utf-8')
     doc_tree = etree.HTML(html)
+    # 截取封面图片链接
     image_links = doc_tree.xpath('//*[@id="content"]/div/div[1]/div[3]/div[2]/div[1]/div[1]/a/img/@src')
     filename = image_links[0].split('/')[-1]
     path_to_img = IMG_STORE + filename
+    # 如果曾经下载过图片就从本地获取，否则下载图片并保存
     if not os.path.exists(path_to_img):
         print "New download"
         save_img(image_links[0], filename)
     image = file(IMG_STORE + filename)
+    # 返回图片结果
     resp = Response(image, mimetype="image/jpeg")
     return resp
 
