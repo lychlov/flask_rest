@@ -65,14 +65,12 @@ def show_tv_image(tvname):
     html = requests.get(target).content.decode('utf-8')
     soup = BeautifulSoup(html, 'lxml')
     # 截取封面图片链接
-    image_link = soup.find('div', class_='search-result').find('div', class_='result-list').find('div',
-                                                                                                 class_='result').find(
-        'img').get('src')
+    image_link = soup.find('div', class_='search-result').find('div', class_='result-list'). \
+        find('div', class_='result').find('img').get('src')
     filename = image_link.split('/')[-1]
     path_to_img = IMG_STORE + filename
     # 如果曾经下载过图片就从本地获取，否则下载图片并保存
     if not os.path.exists(path_to_img):
-        print("New download")
         save_img(image_link, filename)
     image = open(IMG_STORE + filename, 'rb').read()
     # 返回图片结果
@@ -80,8 +78,8 @@ def show_tv_image(tvname):
     return resp
 
 
-def get_file_content(filePath):
-    with open(filePath, 'rb') as fp:
+def get_file_content(file_path):
+    with open(file_path, 'rb') as fp:
         return fp.read()
 
 
